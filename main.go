@@ -62,20 +62,30 @@ func CreateClient(name, host string, port int) {
 
 	input.OnSubmit(func(e *tui.Entry) {
 		text := e.Text()
+		// If text is empty, do nothing
 		if len(text) == 0 {
 			return
 		}
+		// If starts with /
 		if text[0] == '/' {
 			split := strings.Split(text, " ")
 			command := strings.ToLower(split[0])
-			if len(split) < 2 {
-				input.SetText("")
-				return
-			}
+
+			// Commands
 			switch command {
 			case "/setname":
+				// Validate that name was specified, otherwise return
+				if len(split) < 2 {
+					input.SetText("")
+					return
+				}
 				client.Name = split[1]
+
+			case "/bye":
+				client.SendMessage("<-- says bye, disconnecting...")
+				ui.Quit()
 			}
+
 			input.SetText("")
 			return
 		}
