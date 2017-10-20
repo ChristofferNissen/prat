@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"prat/prat"
+	"./prat"
 	"strings"
 
 	tui "github.com/marcusolsson/tui-go"
@@ -67,11 +67,12 @@ func CreateClient(name, host string, port int) {
 		}
 		if text[0] == '/' {
 			split := strings.Split(text, " ")
+			command := strings.ToLower(split[0])
 			if len(split) < 2 {
 				input.SetText("")
 				return
 			}
-			switch split[0] {
+			switch command {
 			case "/setname":
 				client.Name = split[1]
 			}
